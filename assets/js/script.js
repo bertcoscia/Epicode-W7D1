@@ -71,6 +71,7 @@ const speciesForm = document.getElementById("species");
 const breedForm = document.getElementById("breed");
 const tableBody = document.querySelector("tbody");
 const table = document.querySelector("table");
+const container = document.querySelector(".container");
 
 const arrayPets = [];
 
@@ -95,5 +96,23 @@ form.onsubmit = function (event) {
       <td>${pet.breed}</td>`;
     tableBody.appendChild(petDetails);
   });
+  if (arrayPets.length > 1 && !document.getElementById("btnCompareOwner")) {
+    const btnCompareOwner = document.createElement("button");
+    btnCompareOwner.id = "btnCompareOwner";
+    btnCompareOwner.classList.add("btn");
+    btnCompareOwner.classList.add("btn-primary");
+    btnCompareOwner.innerText = "Compare Owner";
+    container.appendChild(btnCompareOwner);
+  }
   form.reset();
 };
+
+if (arrayPets.length > 1) {
+  let randomPet1 = Math.floor(Math.random() * arrayPets.length);
+  let randomPet2 = Math.floor(Math.random() * arrayPets.length);
+  if (randomPet2 === randomPet1) {
+    randomPet2 = Math.floor(Math.random() * arrayPets.length);
+  } else {
+    randomPet1.isSameOwner(randomPet2);
+  }
+}
