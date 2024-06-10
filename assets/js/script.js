@@ -54,6 +54,14 @@ class Pets {
     this.species = species;
     this.breed = breed;
   }
+
+  isSameOwner(ownerToCompare) {
+    return this.ownerName === ownerToCompare.ownerName;
+  }
+
+  static isSameOwnerStatic(pet1, pet2) {
+    return pet1.ownerName === pet2.ownerName;
+  }
 }
 
 const form = document.querySelector("form");
