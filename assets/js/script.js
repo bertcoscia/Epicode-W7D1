@@ -8,21 +8,21 @@ class User {
 
   compareAge(ageToCompare) {
     if (this.age > ageToCompare.age) {
-      console.log(`${this.firstName} (${this.age}) è più grande di ${ageToCompare.firstName} (${ageToCompare.age})`);
+      console.log(`${this.firstName} (${this.age}) is older than ${ageToCompare.firstName} (${ageToCompare.age})`);
     } else if (this.age < ageToCompare.age) {
-      console.log(`${this.firstName} (${this.age}) è più giovane di ${ageToCompare.firstName} (${ageToCompare.age})`);
+      console.log(`${this.firstName} (${this.age}) is younger than ${ageToCompare.firstName} (${ageToCompare.age})`);
     } else {
-      console.log(`${this.firstName} (${this.age}) e ${ageToCompare.firstName} (${ageToCompare.age}) hanno la stessa età`);
+      console.log(`${this.firstName} (${this.age}) and ${ageToCompare.firstName} (${ageToCompare.age}) are the same age`);
     }
   }
 
   static compareAgeStatic(user1, user2) {
     if (user1.age > user2.age) {
-      console.log(`STATIC - ${user1.firstName} (${user1.age}) è più grande di ${user2.firstName} (${user2.age})`);
+      console.log(`STATIC - ${user1.firstName} (${user1.age}) is older than ${user2.firstName} (${user2.age})`);
     } else if (user1.age < user2.age) {
-      console.log(`STATIC - ${user1.firstName} (${user1.age}) è più giovane di ${user2.firstName} (${user2.age})`);
+      console.log(`STATIC - ${user1.firstName} (${user1.age}) is younger than ${user2.firstName} (${user2.age})`);
     } else {
-      console.log(`STATIC - ${user1.firstName} (${user1.age}) e ${user2.firstName} (${user2.age}) hanno la stessa età`);
+      console.log(`STATIC - ${user1.firstName} (${user1.age}) and ${user2.firstName} (${user2.age}) are the same age`);
     }
   }
 }
