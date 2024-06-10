@@ -56,11 +56,11 @@ class Pets {
   }
 
   isSameOwner(ownerToCompare) {
-    return this.ownerName === ownerToCompare.ownerName;
+    console.log(this.ownerName === ownerToCompare.ownerName);
   }
 
   static isSameOwnerStatic(pet1, pet2) {
-    return pet1.ownerName === pet2.ownerName;
+    console.log(et1.ownerName === pet2.ownerName);
   }
 }
 
@@ -96,23 +96,31 @@ form.onsubmit = function (event) {
       <td>${pet.breed}</td>`;
     tableBody.appendChild(petDetails);
   });
-  if (arrayPets.length > 1 && !document.getElementById("btnCompareOwner")) {
+  if (arrayPets.length > 1 && !document.getElementById("btnCompareOwner") /* se il btn non esiste restituisce vero */) {
     const btnCompareOwner = document.createElement("button");
     btnCompareOwner.id = "btnCompareOwner";
     btnCompareOwner.classList.add("btn");
     btnCompareOwner.classList.add("btn-primary");
     btnCompareOwner.innerText = "Compare Owner";
+    btnCompareOwner.addEventListener("click", compareOwnerFunction);
     container.appendChild(btnCompareOwner);
   }
   form.reset();
 };
 
-if (arrayPets.length > 1) {
-  let randomPet1 = Math.floor(Math.random() * arrayPets.length);
-  let randomPet2 = Math.floor(Math.random() * arrayPets.length);
-  if (randomPet2 === randomPet1) {
-    randomPet2 = Math.floor(Math.random() * arrayPets.length);
-  } else {
-    randomPet1.isSameOwner(randomPet2);
+const btnCompareOwner = document.getElementById("btnCompareOwner");
+
+const compareOwnerFunction = () => {
+  // se l'array contiene piu di un elemento genero due numeri random
+  if (arrayPets.length > 1) {
+    let randomPet1 = Math.floor(Math.random() * arrayPets.length);
+    let randomPet2 = randomPet1;
+    // genera un numero random fino a che non sia diverso da quello di randomPet1
+    while (randomPet2 === randomPet1) {
+      randomPet2 = Math.floor(Math.random() * arrayPets.length);
+    }
+    console.log("pet1", randomPet1);
+    console.log("pet2", randomPet2);
+    arrayPets[randomPet1].isSameOwner(arrayPets[randomPet2]);
   }
-}
+};
