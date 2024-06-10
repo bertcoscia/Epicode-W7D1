@@ -61,14 +61,31 @@ const petNameForm = document.getElementById("petName");
 const ownerNameForm = document.getElementById("ownerName");
 const speciesForm = document.getElementById("species");
 const breedForm = document.getElementById("breed");
-
-console.log(form);
+const tableBody = document.querySelector("tbody");
+const table = document.querySelector("table");
 
 const arrayPets = [];
 
 form.onsubmit = function (event) {
   event.preventDefault();
+  // istanzio un nuovo oggetto con i valori passati dal form
   const pet = new Pets(petNameForm.value, ownerNameForm.value, speciesForm.value, breedForm.value);
-  console.log(pet);
+  // pusho l'oggetto nell'array
+  arrayPets.push(pet);
+  // rendo visibile la tabella
+  table.classList.remove("d-none");
+  // pulisco il tbody per evitare di avere piu volte gli stessi oggetti
+  tableBody.innerHTML = "";
+  //per ogni elemento dell'array creo una <tr>
+  arrayPets.forEach((pet, index) => {
+    const petDetails = document.createElement("tr");
+    petDetails.innerHTML = `
+      <th scope="row">${index + 1}</th>
+      <td>${pet.petName}</td>
+      <td>${pet.ownerName}</td>
+      <td>${pet.species}</td>
+      <td>${pet.breed}</td>`;
+    tableBody.appendChild(petDetails);
+  });
   form.reset();
 };
