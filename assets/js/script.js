@@ -56,11 +56,19 @@ class Pets {
   }
 
   isSameOwner(ownerToCompare) {
-    console.log("same owner", this.ownerName === ownerToCompare.ownerName);
+    if (this.ownerName === ownerToCompare.ownerName) {
+      console.log(`${this.petName} e ${ownerToCompare.petName} hanno lo stesso padrone: ${this.ownerName}`);
+    } else {
+      console.log(`${this.petName} e ${ownerToCompare.petName} non hanno lo stesso padrone`);
+    }
   }
 
   static isSameOwnerStatic(pet1, pet2) {
-    console.log("same owner", pet1.ownerName === pet2.ownerName);
+    if (pet1.ownerName === pet2.ownerName) {
+      console.log(`STATIC - ${pet1.petName} e ${pet2.petName} hanno lo stesso padrone: ${pet1.ownerName}`);
+    } else {
+      console.log(`STATIC - ${pet1.petName} e ${pet2.petName} non hanno lo stesso padrone`);
+    }
   }
 }
 
@@ -127,7 +135,6 @@ const compareOwnerFunction = () => {
     while (randomPet2 === randomPet1) {
       randomPet2 = Math.floor(Math.random() * arrayPets.length);
     }
-    console.log("x " + randomPet1 + " y " + randomPet2);
     arrayPets[randomPet1].isSameOwner(arrayPets[randomPet2]);
   }
 };
@@ -141,7 +148,6 @@ const compareOwnerStaticFunction = () => {
     while (randomPet2 === randomPet1) {
       randomPet2 = Math.floor(Math.random() * arrayPets.length);
     }
-    console.log("STATIC - x " + randomPet1 + " y " + randomPet2);
     Pets.isSameOwnerStatic(arrayPets[randomPet1], arrayPets[randomPet2]);
   }
 };
