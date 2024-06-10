@@ -44,3 +44,31 @@ gandalfTheGrey.compareAge(sarumanTheWhite);
 User.compareAgeStatic(samviseGamgee, theodenEdnew);
 User.compareAgeStatic(theodenEdnew, samviseGamgee);
 User.compareAgeStatic(gandalfTheGrey, sarumanTheWhite);
+
+/* CLASS PETS */
+
+class Pets {
+  constructor(petName, ownerName, species, breed) {
+    this.petName = petName;
+    this.ownerName = ownerName;
+    this.species = species;
+    this.breed = breed;
+  }
+}
+
+const form = document.querySelector("form");
+const petNameForm = document.getElementById("petName");
+const ownerNameForm = document.getElementById("ownerName");
+const speciesForm = document.getElementById("species");
+const breedForm = document.getElementById("breed");
+
+console.log(form);
+
+const arrayPets = [];
+
+form.onsubmit = function (event) {
+  event.preventDefault();
+  const pet = new Pets(petNameForm.value, ownerNameForm.value, speciesForm.value, breedForm.value);
+  console.log(pet);
+  form.reset();
+};
