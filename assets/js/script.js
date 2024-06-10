@@ -56,11 +56,11 @@ class Pets {
   }
 
   isSameOwner(ownerToCompare) {
-    console.log(this.ownerName === ownerToCompare.ownerName);
+    console.log("same owner", this.ownerName === ownerToCompare.ownerName);
   }
 
   static isSameOwnerStatic(pet1, pet2) {
-    console.log(et1.ownerName === pet2.ownerName);
+    console.log("same owner", pet1.ownerName === pet2.ownerName);
   }
 }
 
@@ -105,10 +105,18 @@ form.onsubmit = function (event) {
     btnCompareOwner.addEventListener("click", compareOwnerFunction);
     container.appendChild(btnCompareOwner);
   }
+  if (arrayPets.length > 1 && !document.getElementById("btnCompareOwnerStatic") /* se il btn non esiste restituisce vero */) {
+    const btnCompareOwner = document.createElement("button");
+    btnCompareOwner.id = "btnCompareOwnerStatic";
+    btnCompareOwner.classList.add("btn");
+    btnCompareOwner.classList.add("btn-primary");
+    btnCompareOwner.classList.add("ms-3");
+    btnCompareOwner.innerText = "Compare Owner Static";
+    btnCompareOwner.addEventListener("click", compareOwnerStaticFunction);
+    container.appendChild(btnCompareOwner);
+  }
   form.reset();
 };
-
-const btnCompareOwner = document.getElementById("btnCompareOwner");
 
 const compareOwnerFunction = () => {
   // se l'array contiene piu di un elemento genero due numeri random
@@ -119,8 +127,21 @@ const compareOwnerFunction = () => {
     while (randomPet2 === randomPet1) {
       randomPet2 = Math.floor(Math.random() * arrayPets.length);
     }
-    console.log("pet1", randomPet1);
-    console.log("pet2", randomPet2);
+    console.log("x " + randomPet1 + " y " + randomPet2);
     arrayPets[randomPet1].isSameOwner(arrayPets[randomPet2]);
+  }
+};
+
+const compareOwnerStaticFunction = () => {
+  // se l'array contiene piu di un elemento genero due numeri random
+  if (arrayPets.length > 1) {
+    let randomPet1 = Math.floor(Math.random() * arrayPets.length);
+    let randomPet2 = randomPet1;
+    // genera un numero random fino a che non sia diverso da quello di randomPet1
+    while (randomPet2 === randomPet1) {
+      randomPet2 = Math.floor(Math.random() * arrayPets.length);
+    }
+    console.log("STATIC - x " + randomPet1 + " y " + randomPet2);
+    Pets.isSameOwnerStatic(arrayPets[randomPet1], arrayPets[randomPet2]);
   }
 };
