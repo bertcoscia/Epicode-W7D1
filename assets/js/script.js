@@ -57,17 +57,17 @@ class Pets {
 
   isSameOwner(ownerToCompare) {
     if (this.ownerName === ownerToCompare.ownerName) {
-      console.log(`${this.petName} e ${ownerToCompare.petName} hanno lo stesso padrone: ${this.ownerName}`);
+      return `${this.petName} e ${ownerToCompare.petName} hanno lo stesso padrone: ${this.ownerName}`;
     } else {
-      console.log(`${this.petName} e ${ownerToCompare.petName} non hanno lo stesso padrone`);
+      return `${this.petName} e ${ownerToCompare.petName} non hanno lo stesso padrone`;
     }
   }
 
   static isSameOwnerStatic(pet1, pet2) {
     if (pet1.ownerName === pet2.ownerName) {
-      console.log(`STATIC - ${pet1.petName} e ${pet2.petName} hanno lo stesso padrone: ${pet1.ownerName}`);
+      return `STATIC - ${pet1.petName} e ${pet2.petName} hanno lo stesso padrone: ${pet1.ownerName}`;
     } else {
-      console.log(`STATIC - ${pet1.petName} e ${pet2.petName} non hanno lo stesso padrone`);
+      return `STATIC - ${pet1.petName} e ${pet2.petName} non hanno lo stesso padrone`;
     }
   }
 }
@@ -79,7 +79,14 @@ const speciesForm = document.getElementById("species");
 const breedForm = document.getElementById("breed");
 const tableBody = document.querySelector("tbody");
 const table = document.querySelector("table");
-const container = document.querySelector(".container");
+const registerContainer = document.getElementById("registerContainer");
+const compareContainer = document.getElementById("compareContainer");
+const compareForm = document.querySelector("#compareContainer form");
+const firstPetCompare = document.getElementById("firstPetCompare");
+const secondPetCompare = document.getElementById("secondPetCompare");
+const compareBtn = document.getElementById("compareBtn");
+const compareBtnStatic = document.getElementById("compareBtnStatic");
+const comparationResult = document.getElementById("comparationResult");
 
 const arrayPets = [];
 
@@ -87,12 +94,29 @@ form.onsubmit = function (event) {
   event.preventDefault();
   // istanzio un nuovo oggetto con i valori passati dal form
   const pet = new Pets(petNameForm.value, ownerNameForm.value, speciesForm.value, breedForm.value);
-  // pusho l'oggetto nell'array
-  arrayPets.push(pet);
+
+  // variabile flag
+  let isDuplicate = false;
+
+  // per ogni elemento di arrayPets: se l'oggetto appena istanziato esiste già non si potrà continuare (questo permette di avere animali con lo stesso nome, verosimilmente avranno padroni diversi)
+  arrayPets.forEach((currentPet) => {
+    if (currentPet.petName === pet.petName && currentPet.ownerName === pet.ownerName && currentPet.species === pet.species && currentPet.breed === pet.breed) {
+      isDuplicate = true;
+      window.alert("You have already registered your pet");
+    }
+  });
+
+  // se l'oggetto appena istanziato è nuovo, viene aggiunto all'array
+  if (!isDuplicate) {
+    arrayPets.push(pet);
+  }
+
   // rendo visibile la tabella
   table.classList.remove("d-none");
+
   // pulisco il tbody per evitare di avere piu volte gli stessi oggetti
   tableBody.innerHTML = "";
+
   //per ogni elemento dell'array creo una <tr>
   arrayPets.forEach((pet, index) => {
     const petDetails = document.createElement("tr");
@@ -104,50 +128,54 @@ form.onsubmit = function (event) {
       <td>${pet.breed}</td>`;
     tableBody.appendChild(petDetails);
   });
-  if (arrayPets.length > 1 && !document.getElementById("btnCompareOwner") /* se il btn non esiste restituisce vero */) {
-    const btnCompareOwner = document.createElement("button");
-    btnCompareOwner.id = "btnCompareOwner";
-    btnCompareOwner.classList.add("btn");
-    btnCompareOwner.classList.add("btn-primary");
-    btnCompareOwner.innerText = "Compare Owner";
-    btnCompareOwner.addEventListener("click", compareOwnerFunction);
-    container.appendChild(btnCompareOwner);
-  }
-  if (arrayPets.length > 1 && !document.getElementById("btnCompareOwnerStatic") /* se il btn non esiste restituisce vero */) {
-    const btnCompareOwner = document.createElement("button");
-    btnCompareOwner.id = "btnCompareOwnerStatic";
-    btnCompareOwner.classList.add("btn");
-    btnCompareOwner.classList.add("btn-primary");
-    btnCompareOwner.classList.add("ms-3");
-    btnCompareOwner.innerText = "Compare Owner Static";
-    btnCompareOwner.addEventListener("click", compareOwnerStaticFunction);
-    container.appendChild(btnCompareOwner);
+
+  // quando vengono registrati almeno due animali il form per confrontare i padroni diventa visibile
+  if (arrayPets.length > 1) {
+    compareContainer.classList.remove("d-none");
+    firstPetCompare.innerHTML = "";
+    secondPetCompare.innerHTML = "";
+
+    // crea opzioni di scelta degli animali nel form di confronto padroni con i nomi degli animali
+    arrayPets.forEach((pet, index) => {
+      const firstPetOption = document.createElement("option");
+      firstPetOption.setAttribute("value", index);
+      firstPetOption.innerText = pet.petName;
+      firstPetCompare.appendChild(firstPetOption);
+
+      const secondPetOption = document.createElement("option");
+      secondPetOption.setAttribute("value", index);
+      secondPetOption.innerText = pet.petName;
+      secondPetCompare.appendChild(secondPetOption);
+    });
   }
   form.reset();
 };
 
-const compareOwnerFunction = () => {
-  // se l'array contiene piu di un elemento genero due numeri random
-  if (arrayPets.length > 1) {
-    let randomPet1 = Math.floor(Math.random() * arrayPets.length);
-    let randomPet2 = randomPet1;
-    // genera un numero random fino a che non sia diverso da quello di randomPet1
-    while (randomPet2 === randomPet1) {
-      randomPet2 = Math.floor(Math.random() * arrayPets.length);
-    }
-    arrayPets[randomPet1].isSameOwner(arrayPets[randomPet2]);
+const compareOwnerFunction = (pet1, pet2) => {
+  // se gli animali selezionati sono gli stessi darà errore
+  if (pet1 === pet2) {
+    window.alert("Choose two different pets to continue");
+  } else {
+    // se gli animali selezionati sono diversi mostra a schermo il risultato della comparazione
+    comparationResult.innerText = arrayPets[pet1].isSameOwner(arrayPets[pet2]);
   }
 };
 
-const compareOwnerStaticFunction = () => {
-  // se l'array contiene piu di un elemento genero due numeri random
-  if (arrayPets.length > 1) {
-    let randomPet1 = Math.floor(Math.random() * arrayPets.length);
-    let randomPet2 = randomPet1;
-    // genera un numero random fino a che non sia diverso da quello di randomPet1
-    while (randomPet2 === randomPet1) {
-      randomPet2 = Math.floor(Math.random() * arrayPets.length);
-    }
-    Pets.isSameOwnerStatic(arrayPets[randomPet1], arrayPets[randomPet2]);
+const compareOwnerStaticFunction = (pet1, pet2) => {
+  // se gli animali selezionati sono gli stessi darà errore
+  if (pet1 === pet2) {
+    window.alert("Choose two different pets to continue");
+  } else {
+    // se gli animali selezionati sono diversi mostra a schermo il risultato della comparazione
+    comparationResult.innerText = Pets.isSameOwnerStatic(arrayPets[pet1], arrayPets[pet2]);
   }
 };
+
+// aggiungo gli eventListener ai bottoni
+compareBtn.addEventListener("click", (event) => {
+  compareOwnerFunction(firstPetCompare.value, secondPetCompare.value);
+});
+
+compareBtnStatic.addEventListener("click", (event) => {
+  compareOwnerStaticFunction(firstPetCompare.value, secondPetCompare.value);
+});

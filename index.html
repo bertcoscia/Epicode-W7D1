@@ -19,8 +19,8 @@
     <h1 class="text-center my-5">&#128048; &#128057; Register your pet &#128054; &#128049;</h1>
 
 
-    <div class="container">
-        <form>
+    <div class="container" id="registerContainer">
+        <form class="my-5">
             <div class="mb-3">
                 <label for="petName" class="form-label">Pet Name</label>
                 <input type="text" class="form-control" id="petName" aria-describedby="emailHelp" placeholder="Your pet&apos;s name">
@@ -53,6 +53,29 @@
             <tbody>
             </tbody>
         </table>
+    </div>
+    <div class="container my-5 d-none" id="compareContainer">
+        <form>
+            <fieldset>
+                <h2 class="text-center">Compare Owner</h2>
+                <p class="text-center lead">Choose two pets and check if they have the same owner</p>
+                <div class="mb-3">
+                    <label for="firstPetCompare" class="form-label">First Pet</label>
+                    <select id="firstPetCompare" class="form-select">
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="secondPetCompare" class="form-label">Second Pet</label>
+                    <select id="secondPetCompare" class="form-select">
+                    </select>
+                </div>
+            </fieldset>
+        </form>
+        <div class="d-flex my-5 justify-content-between">
+            <button type="submit" class="btn btn-primary" id="compareBtn">Compare</button>
+            <button type="submit" class="btn btn-primary" id="compareBtnStatic">Compare Static</button>
+        </div>
+        <p id="comparationResult"></p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
